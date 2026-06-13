@@ -292,8 +292,10 @@ static bool text_mentions_bot(const char *text)
     size_t mlen = strlen(s_bot_mention);
     for (const char *p = text; *p; p++) {
         if (strncasecmp(p, s_bot_mention, mlen) == 0) {
+            char prev = (p == text) ? ' ' : p[-1];
             char next = p[mlen];
-            if (!isalnum((unsigned char)next) && next != '_') return true;
+            if (!isalnum((unsigned char)prev) && prev != '_' &&
+                !isalnum((unsigned char)next) && next != '_') return true;
         }
     }
     return false;
